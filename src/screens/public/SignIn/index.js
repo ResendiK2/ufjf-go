@@ -7,12 +7,11 @@ import { Context } from "../../../Providers/context";
 export default ({ navigation }) => {
   const { setIsLogged } = useContext(Context);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState({});
 
   const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    console.log(userData);
 
     setIsLogged(true);
   };
@@ -38,13 +37,13 @@ export default ({ navigation }) => {
           <Input
             type='email'
             placeholder='Email'
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => setUserData({ ...data, email: text })}
           />
 
           <Input
             type='password'
             placeholder='Senha'
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => setUserData({ ...data, password: text })}
           />
         </VStack>
       </FormControl>
@@ -56,7 +55,11 @@ export default ({ navigation }) => {
         <Button
           w='100%'
           variant='outline'
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => {
+            navigation.navigate("SignUp")
+            handleLogin()
+          }}
+
         >
           Cadastrar
         </Button>

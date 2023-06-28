@@ -9,7 +9,34 @@ import {
   Avatar,
   Spacer,
 } from "native-base";
-
+const jsonData = {
+  "messages": [
+    {
+      "id": 1,
+      "sender_id": 1,
+      "receiver_id": 2,
+      "content": "Olá! Como você está?"
+    },
+    {
+      "id": 2,
+      "sender_id": 2,
+      "receiver_id": 1,
+      "content": "Oi! Estou bem, obrigado por perguntar."
+    },
+    {
+      "id": 3,
+      "sender_id": 1,
+      "receiver_id": 3,
+      "content": "E aí? Vamos sair hoje à noite?"
+    },
+    {
+      "id": 4,
+      "sender_id": 3,
+      "receiver_id": 1,
+      "content": "Claro! Onde nos encontramos?"
+    }
+  ]
+};
 export default () => {
   const data = [
     {
@@ -106,6 +133,50 @@ export default () => {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU",
     },
   ];
+
+  function getConversations(messages, myId) {
+    const conversations = [{}];
+
+    messages.forEach((message) => {
+      const { sender_id, receiver_id } = message;
+      const otherUserId = sender_id === myId ? receiver_id : sender_id;
+
+      if (!conversations[otherUserId]) {
+        conversations[otherUserId] = [];
+      }
+
+      conversations[otherUserId].push(message);
+    });
+
+    return conversations;
+  }
+
+  function sendMessage(senderId, receiverId, content) {
+    let message = {
+      senderId: senderId,
+      receiverId: receiverId,
+      content: content
+    };
+
+    console.log(`de ${message.senderId}`);
+    console.log(`para ${message.receiverId}`);
+    console.log(`${message.content}`);
+  }
+
+  function receiveMessage(receiverId, senderId, content) {
+    let message = {
+      senderId: senderId,
+      receiverId: receiverId,
+      content: content
+    };
+
+    console.log(`de ${message.senderId}`);
+    console.log(`para ${message.receiverId}`);
+    console.log(`${message.content}`);
+  }
+
+  const getMessages = () => axios.get("/messages");
+
   return (
     <VStack flex='1' bgColor='white' justifyContent='center'>
       <FlatList
@@ -132,3 +203,5 @@ export default () => {
     </VStack>
   );
 };
+
+export { getConversations }

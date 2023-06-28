@@ -26,10 +26,12 @@ export default () => {
     if (password != confirmPassword) {
       setError(true);
     } else {
-      setUserData({ ...userData, confirmPassword });
+      setUserData({ ...userData, password: password });
       setError(false);
     }
   };
+
+  const handleSignUp = () => console.log(userData);
 
   return (
     <ScrollView bgColor='white'>
@@ -45,14 +47,6 @@ export default () => {
             />
 
             <Input
-              placeholder='Sobrenome'
-              type='text'
-              onChangeText={(value) =>
-                setUserData({ ...userData, lastName: value })
-              }
-            />
-
-            <Input
               placeholder='Email'
               type='text'
               onChangeText={(value) =>
@@ -61,9 +55,23 @@ export default () => {
             />
 
             <Input
-              placeholder='Idade'
+              placeholder='Matricula'
               type='text'
-              onChangeText={(value) => setUserData({ ...userData, age: value })}
+              onChangeText={(value) =>
+                setUserData({ ...userData, matricula: value })
+              }
+            />
+
+            <Input
+              placeholder='Telefone'
+              type='text'
+              onChangeText={(value) => setUserData({ ...userData, phone: value })}
+            />
+
+            <Input
+              placeholder='Curso'
+              type='text'
+              onChangeText={(value) => setUserData({ ...userData, curso: value })}
             />
 
             <Input
@@ -104,7 +112,10 @@ export default () => {
                 mr={5}
                 size='lg'
                 isChecked={isDriver}
-                onToggle={() => setIsDriver(!isDriver)}
+                onToggle={() => {
+                  setIsDriver(!isDriver)
+                  isDriver ? setUserData({ ...userData, user_type_id: 1 }) : setUserData({ ...userData, user_type_id: 0 })
+                }}
               />
               <Text color='primary.500' fontSize='md'>
                 Também sou motorista
@@ -146,11 +157,13 @@ export default () => {
         </FormControl>
 
         <Center mt='5'>
-          <Button w='100%' onPress={verifyPassword}>
+          <Button w='100%' onPress={() => verifyPassword
+            (!error) ? handleSignUp : console.log("Erro")
+          }>
             Cria conta
           </Button>
         </Center>
       </VStack>
-    </ScrollView>
+    </ScrollView >
   );
 };
