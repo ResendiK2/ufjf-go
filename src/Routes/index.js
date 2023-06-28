@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,12 +6,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import Preload from "../screens/public/Preload";
 import PublicRoutes from "./PublicRoutes";
 import PrivateRoutes from "./PrivateRoutes";
+import { Context } from "../Providers/context";
 
 const MainNavigation = createNativeStackNavigator();
 
 export default () => {
-  const [initializing, setInitializing] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLogged, initializing } = useContext(Context);
 
   return (
     <NavigationContainer>
@@ -21,7 +21,7 @@ export default () => {
         </MainNavigation.Navigator>
       ) : (
         <MainNavigation.Navigator screenOptions={{ headerShown: false }}>
-          {isLoggedIn ? (
+          {isLogged ? (
             <MainNavigation.Screen
               name='PrivateRoutes'
               component={PrivateRoutes}
