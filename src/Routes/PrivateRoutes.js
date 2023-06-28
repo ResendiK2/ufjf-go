@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 import RideStack from "./Stacks/RideStack";
 import Search from "../screens/private/Search";
@@ -10,37 +10,48 @@ const Tab = createBottomTabNavigator();
 
 export default () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      tabBarStyle={{
+        backgroundColor: "#8b5cf6",
+        borderTopColor: "transparent",
+      }}
+      screenOptions={{
+        tabBarActiveTintColor: "#7c3aed",
+        tabBarActiveBackgroundColor: "#c4b5fd",
+        tabBarInactiveTintColor: "#8b5cf6",
+        tabBarInactiveBackgroundColor: "#f5f3ff",
+      }}
+    >
       <Tab.Screen
         name='Search'
         component={Search}
         options={{
           headerShown: false,
-          tabBarLabel: "Buscar",
+          tabBarLabel: "Início",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='home' color={color} size={size} />
+            <Icon name='home' color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name='Rides'
+        name='RidesStack'
         component={RideStack}
         options={{
           headerShown: false,
           tabBarLabel: "Caronas",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='car' color={color} size={size} />
+            <Icon name='car' color={color} size={size} />
           ),
         }}
       />
       <Tab.Screen
-        name='Chats'
+        name='ChatsStack'
         component={ChatStack}
         options={{
           headerShown: false,
           tabBarLabel: "Chats",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='chat' color={color} size={size} />
+            <Icon name='comments' color={color} size={size} />
           ),
         }}
       />
@@ -51,7 +62,7 @@ export default () => {
           headerShown: false,
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name='account' color={color} size={size} />
+            <Icon name='user' color={color} size={size} />
           ),
         }}
       />

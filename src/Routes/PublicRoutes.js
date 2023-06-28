@@ -8,13 +8,26 @@ const Stack = createNativeStackNavigator();
 
 export default () => {
   return (
-    <Stack.Navigator
-      initialRouteName='SignIn'
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name='SignIn' component={SignIn} />
-      <Stack.Screen name='SignUp' component={SignUp} />
-      <Stack.Screen name='ForgetPassword' component={ForgetPassword} />
+    <Stack.Navigator initialRouteName='SignIn'>
+      <Stack.Screen
+        name='SignIn'
+        component={SignIn}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='SignUp'
+        component={SignUp}
+        options={{
+          headerTitle: "Cadastro",
+        }}
+      />
+      <Stack.Screen
+        name='ForgetPassword'
+        component={ForgetPassword}
+        options={{
+          headerTitle: "Esqueci minha senha",
+        }}
+      />
     </Stack.Navigator>
   );
 };
