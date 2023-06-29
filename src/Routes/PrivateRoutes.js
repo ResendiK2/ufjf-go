@@ -59,11 +59,11 @@ export default () => {
         name='Profile'
         component={Profile}
         options={{
-          headerShown: false,
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
             <Icon name='user' color={color} size={size} />
           ),
+          headerTitle: "Perfil",
         }}
       />
     </Tab.Navigator>
