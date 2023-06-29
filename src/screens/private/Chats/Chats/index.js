@@ -3,7 +3,6 @@ import {
   VStack,
   Text,
   Box,
-  Heading,
   FlatList,
   HStack,
   Avatar,
