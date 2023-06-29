@@ -1,19 +1,27 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import Search from "../../../Screens/private/Search";
+
 import Rides from "../../../Screens/private/Rides/Rides";
 import Ride from "../../../Screens/private/Rides/Ride";
-import RidesForm from "../../../Screens/private/Rides/RidesForm";
 
 const Stack = createNativeStackNavigator();
 
 export default () => {
   return (
-    <Stack.Navigator initialRouteName='Rides'>
+    <Stack.Navigator initialRouteName='Search'>
+      <Stack.Screen
+        name='Search'
+        component={Search}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name='Rides'
         component={Rides}
         options={{
-          headerTitle: "Caronas",
+          headerTitle: "Caronas Disponíveis",
         }}
       />
       <Stack.Screen
@@ -21,13 +29,6 @@ export default () => {
         component={Ride}
         options={{
           headerTitle: "Carona",
-        }}
-      />
-      <Stack.Screen
-        name='RidesForm'
-        component={RidesForm}
-        options={{
-          headerTitle: "Formulário de Carona",
         }}
       />
     </Stack.Navigator>

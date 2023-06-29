@@ -3,14 +3,14 @@ import {
   VStack,
   Text,
   Box,
-  Heading,
   FlatList,
   HStack,
   Avatar,
   Spacer,
 } from "native-base";
+import { TouchableOpacity } from "react-native";
 
-export default () => {
+export default ({ navigation }) => {
   const data = [
     {
       id: 1,
@@ -112,19 +112,21 @@ export default () => {
         data={data}
         renderItem={({ item }) => (
           <Box borderBottomWidth='1' borderColor='primary.100' px='3' py='3'>
-            <HStack space={[2, 3]} justifyContent='space-between'>
-              <Avatar size='48px' source={{ uri: item.avatarUrl }} />
-              <VStack>
-                <Text color='primary.900' bold>
-                  {item.fullName}
+            <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
+              <HStack space={[2, 3]} justifyContent='space-between'>
+                <Avatar size='48px' source={{ uri: item.avatarUrl }} />
+                <VStack>
+                  <Text color='primary.900' bold>
+                    {item.fullName}
+                  </Text>
+                  <Text color='coolGray.600'>{item.recentText}</Text>
+                </VStack>
+                <Spacer />
+                <Text fontSize='xs' color='coolGray.800' alignSelf='flex-start'>
+                  {item.timeStamp}
                 </Text>
-                <Text color='coolGray.600'>{item.recentText}</Text>
-              </VStack>
-              <Spacer />
-              <Text fontSize='xs' color='coolGray.800' alignSelf='flex-start'>
-                {item.timeStamp}
-              </Text>
-            </HStack>
+              </HStack>
+            </TouchableOpacity>
           </Box>
         )}
         keyExtractor={(item) => item.id}

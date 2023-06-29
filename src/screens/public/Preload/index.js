@@ -1,24 +1,9 @@
-import React, { useState } from "react";
-import {
-  VStack,
-  Text,
-  Input,
-  Button,
-  HStack,
-  FormControl,
-  Spinner,
-} from "native-base";
+import React from "react";
+import { VStack, Text, HStack, Spinner } from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 
-export default ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
+export default () => {
   return (
     <VStack
       flex='1'

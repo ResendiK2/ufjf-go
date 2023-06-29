@@ -7,15 +7,17 @@ import {
   HStack,
   FormControl,
   Select,
+  Switch,
 } from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 import { Context } from "../../../Providers/context";
 
 export default ({ navigation }) => {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("UFJF");
+  const { setIsLogged } = useContext(Context);
+
   const [people, setPeople] = useState("0");
+  const [justWomen, setJustWomen] = useState(false);
 
   return (
     <VStack
@@ -58,10 +60,34 @@ export default ({ navigation }) => {
             <Select.Item label='3' value='3' />
             <Select.Item label='4' value='4' />
           </Select>
+
+          <HStack alignItems='center'>
+            <Switch
+              mr={5}
+              size='lg'
+              isChecked={justWomen}
+              onToggle={() => setJustWomen(!justWomen)}
+            />
+            <Text color='primary.500' fontSize='md' fontWeight='semibold'>
+              Apenas mulheres
+            </Text>
+          </HStack>
         </VStack>
       </FormControl>
 
-      <Button w='100%'>Buscar</Button>
+      <Button
+        w='100%'
+        onPress={() =>
+          navigation.navigate("Rides", {
+            isSearch: true,
+          })
+        }
+      >
+        Buscar
+      </Button>
+      <Button w='100%' variant='outline' onPress={() => setIsLogged(false)}>
+        Sair
+      </Button>
     </VStack>
   );
 };

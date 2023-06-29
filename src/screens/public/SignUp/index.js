@@ -45,19 +45,23 @@ export default () => {
             />
 
             <Input
-              placeholder='Sobrenome'
-              type='text'
-              onChangeText={(value) =>
-                setUserData({ ...userData, lastName: value })
-              }
-            />
-
-            <Input
               placeholder='Email'
               type='text'
               onChangeText={(value) =>
                 setUserData({ ...userData, email: value })
               }
+            />
+
+            <Input
+              placeholder='Numero de matricula'
+              type='text'
+              onChangeText={(value) => setUserData({ ...userData, age: value })}
+            />
+
+            <Input
+              placeholder='Numero de telefone'
+              type='text'
+              onChangeText={(value) => setUserData({ ...userData, age: value })}
             />
 
             <Input
@@ -112,36 +116,14 @@ export default () => {
             </HStack>
 
             {isDriver ? (
-              <Button
-                size='lg'
-                leftIcon={
-                  <Icon
-                    as={Ionicons}
-                    name='cloud-upload-outline'
-                    size='5xl'
-                    mr='3'
-                  />
+              <Input
+                placeholder='CNH'
+                type='text'
+                onChangeText={(value) =>
+                  setUserData({ ...userData, age: value })
                 }
-                variant='ghost'
-              >
-                Carteira de Motorista
-              </Button>
+              />
             ) : null}
-
-            <Button
-              size='lg'
-              leftIcon={
-                <Icon
-                  as={Ionicons}
-                  name='cloud-upload-outline'
-                  size='5xl'
-                  mr='3'
-                />
-              }
-              variant='ghost'
-            >
-              Comprovante de Matrícula
-            </Button>
           </VStack>
         </FormControl>
 

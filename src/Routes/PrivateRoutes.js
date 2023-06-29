@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 import RideStack from "./Stacks/RideStack";
-import Search from "../screens/private/Search";
 import ChatStack from "./Stacks/ChatStack";
-import Profile from "../screens/private/Profile";
+import SearchStack from "./Stacks/SearchStack";
+import Profile from "../Screens/private/Profile";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,13 +23,13 @@ export default () => {
       }}
     >
       <Tab.Screen
-        name='Search'
-        component={Search}
+        name='SearchStack'
+        component={SearchStack}
         options={{
           headerShown: false,
-          tabBarLabel: "Início",
+          tabBarLabel: "Buscar",
           tabBarIcon: ({ color, size }) => (
-            <Icon name='home' color={color} size={size} />
+            <Icon name='search' color={color} size={size} />
           ),
         }}
       />
@@ -38,9 +38,9 @@ export default () => {
         component={RideStack}
         options={{
           headerShown: false,
-          tabBarLabel: "Caronas",
+          tabBarLabel: "Histórico",
           tabBarIcon: ({ color, size }) => (
-            <Icon name='car' color={color} size={size} />
+            <Icon name='history' color={color} size={size} />
           ),
         }}
       />
@@ -59,11 +59,11 @@ export default () => {
         name='Profile'
         component={Profile}
         options={{
-          headerShown: false,
           tabBarLabel: "Perfil",
           tabBarIcon: ({ color, size }) => (
             <Icon name='user' color={color} size={size} />
           ),
+          headerTitle: "Perfil",
         }}
       />
     </Tab.Navigator>
