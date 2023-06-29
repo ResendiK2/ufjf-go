@@ -133,6 +133,7 @@ export default ({ navigation }) => {
             </Text>
             {(person.avaliacoes || []).map((avaliacao) => (
               <VStack
+                key={avaliacao.id}
                 my='1'
                 borderStyle='dashed'
                 borderColor='primary.500'
