@@ -4,12 +4,14 @@ import React, { createContext, useEffect, useState } from "react";
 export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
+  const [isDriver, setIsDriver] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
+      setIsDriver(true);
       setInitializing(false);
     }, 3000);
   }, []);
@@ -17,6 +19,8 @@ export const ContextProvider = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        isDriver,
+        setIsDriver,
         isLogged,
         setIsLogged,
         isConnected,
