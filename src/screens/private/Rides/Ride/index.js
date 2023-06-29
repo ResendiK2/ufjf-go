@@ -1,22 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   VStack,
-  Text,
-  Input,
   Button,
-  HStack,
-  FormControl,
   Select,
   Icon,
-  Avatar,
-  Spacer,
   ScrollView,
-  Switch,
   TextArea,
 } from "native-base";
 
 import Icons from "react-native-vector-icons/FontAwesome5";
-import { Context } from "../../../../Providers/context";
 import RideBox from "../../../../Components/RideBox";
 
 export default ({ navigation, ...rest }) => {

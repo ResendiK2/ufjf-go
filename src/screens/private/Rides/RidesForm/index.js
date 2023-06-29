@@ -21,7 +21,7 @@ export default () => {
   const [justWomen, setJustWomen] = useState(false);
 
   const handleRide = () => {
-    console.log(datetime, vagas, from_adress, to_adress, justWomen);
+    console.log({ datetime, vagas, from_adress, to_adress, justWomen });
   };
 
   return (

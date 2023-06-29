@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { VStack, Button, Icon, FlatList } from "native-base";
 
 import Icons from "react-native-vector-icons/FontAwesome5";

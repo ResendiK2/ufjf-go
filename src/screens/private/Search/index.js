@@ -16,8 +16,6 @@ import { Context } from "../../../Providers/context";
 export default ({ navigation }) => {
   const { setIsLogged } = useContext(Context);
 
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("UFJF");
   const [people, setPeople] = useState("0");
   const [justWomen, setJustWomen] = useState(false);
 
