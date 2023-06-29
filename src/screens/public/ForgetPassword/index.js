@@ -4,6 +4,11 @@ import { VStack, Input, Button, FormControl } from "native-base";
 export default ({ navigation }) => {
   const [email, setEmail] = useState("");
 
+  handleEmail = () => {
+    console.log({ email });
+    navigation.navigate("Login");
+  };
+
   return (
     <VStack
       flex='1'
@@ -24,7 +29,9 @@ export default ({ navigation }) => {
       </FormControl>
 
       <VStack>
-        <Button w='100%'>Enviar Email</Button>
+        <Button w='100%' onPress={() => handleEmail()}>
+          Enviar Email
+        </Button>
       </VStack>
     </VStack>
   );
