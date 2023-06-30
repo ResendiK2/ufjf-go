@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Alert } from "react-native";
 import {
   VStack,
   Text,
@@ -12,11 +13,13 @@ import {
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 import { Context } from "../../../Providers/context";
-import { Alert } from "react-native";
-import axios from "axios";
 
 export default ({ navigation }) => {
-  const { setIsLogged, setIsDriver } = useContext(Context);
+  const {
+    setIsLogged,
+    // setUser,
+    setIsDriver,
+  } = useContext(Context);
 
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +38,8 @@ export default ({ navigation }) => {
       Alert.alert("Sucesso!", "Login realizado com sucesso!");
 
       setIsLogged(true);
-      setIsDriver(true);
+      setIsDriver(false);
+      // setUser(response.data.user)
     } catch (err) {
       Alert.alert("Erro!", "Não foi possível realizar o login.");
     }

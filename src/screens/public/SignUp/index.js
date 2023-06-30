@@ -17,7 +17,11 @@ import {
 import { Context } from "../../../Providers/context";
 
 export default () => {
-  const { setIsLogged, setIsDriver: setUserIsDriver } = useContext(Context);
+  const {
+    setIsLogged,
+    // setUser,
+    setIsDriver: setUserIsDriver,
+  } = useContext(Context);
 
   const [loading, setLoading] = useState();
 
@@ -52,6 +56,7 @@ export default () => {
       Alert.alert("Sucesso!", "Usuário cadastrado com sucesso!");
 
       setUserIsDriver(isDriver);
+      // setUser(userData, id);
       setIsLogged(true);
     } catch (err) {
       Alert.alert("Erro!", "Não foi possível realizar o cadastro.");
