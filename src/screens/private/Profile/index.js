@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import {
   VStack,
   Text,
@@ -8,42 +9,73 @@ import {
   Avatar,
   Divider,
   Icon,
+  Spinner,
 } from "native-base";
 
-import Icons from "react-native-vector-icons/FontAwesome5";
+// import Icons from "react-native-vector-icons/FontAwesome5";
+import { useIsFocused } from "@react-navigation/native";
+import { Context } from "../../../Providers/context";
 
 export default ({ navigation }) => {
-  const itsMine = false;
-  const isDriver = true;
+  const isFocused = useIsFocused();
 
-  const person = {
-    name: "Guilherme",
-    age: 20,
-    email: "gui@gamil.com",
-    telephone: "999999999",
-    matricula: "2019101111",
-    cnh: "123456789",
-    avaliacoes: [
-      {
-        id: 1,
-        userName: "João",
-        description: "Muito bom",
-        stars: 5,
-      },
-      {
-        id: 2,
-        userName: "Maria",
-        description: "Muito bom, o melhor motorista",
-        stars: 5,
-      },
-      {
-        id: 3,
-        userName: "José",
-        description: "Chegou atrasado, mas é bom",
-        stars: 4,
-      },
-    ],
+  const itsMine = false;
+  const { isDriver, user, setUser } = useContext(Context);
+
+  const [loading, setLoading] = useState(false);
+
+  const getUser = async () => {
+    // mock
+    const data = {
+      name: "Guilherme",
+      age: 20,
+      email: "gui@gamil.com",
+      telephone: "999999999",
+      matricula: "2019101111",
+      cnh: "123456789",
+      avaliacoes: [
+        {
+          id: 1,
+          userName: "João",
+          description: "Muito bom",
+          stars: 5,
+        },
+        {
+          id: 2,
+          userName: "Maria",
+          description: "Muito bom, o melhor motorista",
+          stars: 5,
+        },
+        {
+          id: 3,
+          userName: "José",
+          description: "Chegou atrasado, mas é bom",
+          stars: 4,
+        },
+      ],
+    };
+
+    setLoading(true);
+
+    try {
+      // const response = await axios.get(
+      //   "https://ufjfgo.herokuapp.com/user",
+      //   { id: user.id }
+      // );
+
+      setUser(data);
+    } catch (err) {
+      console.log(err);
+      Alert.alert("Erro!", "Não foi possível carregar o perfil.");
+      navigation.navigate("SearchStack", { screen: "Search" });
+    }
+
+    setLoading(false);
   };
+
+  useEffect(() => {
+    getUser();
+  }, [isFocused]);
 
   return (
     <ScrollView bgColor='white'>
@@ -61,11 +93,17 @@ export default ({ navigation }) => {
               GG
             </Avatar>
             <Text fontSize='2xl' fontWeight='bold' color='primary.500'>
-              {person.name}
+              {user?.name}
             </Text>
           </Center>
 
-          {!itsMine && (
+          {loading ? (
+            <Center>
+              <Spinner color='primary.500' size='lg' />
+            </Center>
+          ) : null}
+
+          {/* {!itsMine && (
             <Button
               size='lg'
               variant='outline'
@@ -73,10 +111,11 @@ export default ({ navigation }) => {
               onPress={() =>
                 navigation.navigate("ChatsStack", { screen: "Chat" })
               }
+              isDisabled={loading}
             >
               Enviar Mensagem
             </Button>
-          )}
+          )} */}
 
           <VStack space='2'>
             <VStack>
@@ -84,7 +123,7 @@ export default ({ navigation }) => {
                 Idade
               </Text>
               <Text fontSize='md' color='primary.800'>
-                {person.age}
+                {user?.age}
               </Text>
             </VStack>
 
@@ -93,7 +132,7 @@ export default ({ navigation }) => {
                 Email
               </Text>
               <Text fontSize='md' color='primary.800'>
-                {person.email}
+                {user?.email}
               </Text>
             </VStack>
 
@@ -102,7 +141,7 @@ export default ({ navigation }) => {
                 Telefone
               </Text>
               <Text fontSize='md' color='primary.800'>
-                {person.telephone}
+                {user?.telephone}
               </Text>
             </VStack>
 
@@ -111,7 +150,7 @@ export default ({ navigation }) => {
                 Matrícula
               </Text>
               <Text fontSize='md' color='primary.800'>
-                {person.matricula}
+                {user?.matricula}
               </Text>
             </VStack>
 
@@ -121,7 +160,7 @@ export default ({ navigation }) => {
                   CNH
                 </Text>
                 <Text fontSize='md' color='primary.800'>
-                  {person.cnh}
+                  {user?.cnh}
                 </Text>
               </VStack>
             )}
@@ -131,7 +170,7 @@ export default ({ navigation }) => {
             <Text fontSize='2xl' fontWeight='bold' color='primary.900' mb='2'>
               Avaliações
             </Text>
-            {(person.avaliacoes || []).map((avaliacao) => (
+            {(user?.avaliacoes || []).map((avaliacao) => (
               <VStack
                 key={avaliacao.id}
                 my='1'
