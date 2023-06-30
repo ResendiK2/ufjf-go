@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Alert } from "react-native";
 import {
   VStack,
   Text,
@@ -10,25 +11,58 @@ import {
   Select,
   ScrollView,
   Switch,
-  Icon,
+  Spinner,
 } from "native-base";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Context } from "../../../Providers/context";
 
 export default () => {
-  const [error, setError] = useState(false);
+  const {
+    setIsLogged,
+    // setUser,
+    setIsDriver: setUserIsDriver,
+  } = useContext(Context);
+
+  const [loading, setLoading] = useState();
+
+  const [userData, setUserData] = useState({});
+  const [isDriver, setIsDriver] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isDriver, setIsDriver] = useState(false);
-  const [userData, setUserData] = useState({});
+  const [error, setError] = useState(false);
 
   const verifyPassword = () => {
     if (password != confirmPassword) {
       setError(true);
-    } else {
-      setUserData({ ...userData, confirmPassword });
-      setError(false);
+      return;
     }
+
+    setUserData({ ...userData, confirmPassword });
+    setError(false);
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    if (!verifyPassword()) return;
+
+    setLoading(true);
+
+    try {
+      // const response = await axios.post(
+      //   "https://ufjfgo.herokuapp.com/register",
+      //   userData
+      // );
+
+      Alert.alert("Sucesso!", "Usuário cadastrado com sucesso!");
+
+      setUserIsDriver(isDriver);
+      // setUser(userData, id);
+      setIsLogged(true);
+    } catch (err) {
+      Alert.alert("Erro!", "Não foi possível realizar o cadastro.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -42,6 +76,7 @@ export default () => {
               onChangeText={(value) =>
                 setUserData({ ...userData, name: value })
               }
+              isDisabled={loading}
             />
 
             <Input
@@ -50,30 +85,39 @@ export default () => {
               onChangeText={(value) =>
                 setUserData({ ...userData, email: value })
               }
+              isDisabled={loading}
             />
 
             <Input
               placeholder='Numero de matricula'
               type='text'
-              onChangeText={(value) => setUserData({ ...userData, age: value })}
+              onChangeText={(value) =>
+                setUserData({ ...userData, matricula: value })
+              }
+              isDisabled={loading}
             />
 
             <Input
               placeholder='Numero de telefone'
               type='text'
-              onChangeText={(value) => setUserData({ ...userData, age: value })}
+              onChangeText={(value) =>
+                setUserData({ ...userData, phone: value })
+              }
+              isDisabled={loading}
             />
 
             <Input
               placeholder='Idade'
               type='text'
               onChangeText={(value) => setUserData({ ...userData, age: value })}
+              isDisabled={loading}
             />
 
             <Input
               placeholder='Senha'
               type='password'
               onChangeText={(value) => setPassword(value)}
+              isDisabled={loading}
             />
 
             <Center justifyContent='center' alignItems='center'>
@@ -82,6 +126,7 @@ export default () => {
                 placeholder='Confirme sua senha'
                 onChangeText={(value) => setConfirmPassword(value)}
                 onBlur={() => verifyPassword()}
+                isDisabled={loading}
               />
               {error ? (
                 <Text color='red.500' fontSize='xs'>
@@ -97,6 +142,7 @@ export default () => {
               onValueChange={(value) =>
                 setUserData({ ...userData, gender: value })
               }
+              isDisabled={loading}
             >
               <Select.Item label='Masculino' value='masculino' />
               <Select.Item label='Feminino' value='feminino' />
@@ -109,6 +155,7 @@ export default () => {
                 size='lg'
                 isChecked={isDriver}
                 onToggle={() => setIsDriver(!isDriver)}
+                isDisabled={loading}
               />
               <Text color='primary.500' fontSize='md'>
                 Também sou motorista
@@ -120,15 +167,22 @@ export default () => {
                 placeholder='CNH'
                 type='text'
                 onChangeText={(value) =>
-                  setUserData({ ...userData, age: value })
+                  setUserData({ ...userData, cnh: value })
                 }
+                isDisabled={loading}
               />
             ) : null}
           </VStack>
         </FormControl>
 
+        {loading ? (
+          <Center>
+            <Spinner color='primary.500' size='lg' />
+          </Center>
+        ) : null}
+
         <Center mt='5'>
-          <Button w='100%' onPress={verifyPassword}>
+          <Button w='100%' onPress={() => handleSignUp()} disabled={loading}>
             Cria conta
           </Button>
         </Center>

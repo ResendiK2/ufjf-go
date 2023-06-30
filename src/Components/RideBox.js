@@ -7,12 +7,15 @@ import { useNavigation } from "@react-navigation/native";
 
 export default ({
   id,
-  from_adress,
-  to_adress,
-  datetime,
+  from_address,
+  to_address,
+  date,
+  time,
   driverName,
   edit,
   isSearch,
+  isHistory,
+  disabled,
 }) => {
   const navigation = useNavigation();
 
@@ -27,8 +30,8 @@ export default ({
 
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("Ride", { isSearch })}
-      disabled={!isSearch}
+      onPress={() => navigation.navigate("Ride", { isSearch, isHistory })}
+      disabled={disabled}
     >
       <VStack
         borderWidth='2'
@@ -48,7 +51,7 @@ export default ({
               mb='2'
               numberOfLines={3}
             >
-              {datetime}
+              {`${date} - ${time}`}
             </Text>
           </HStack>
           {edit ? (
@@ -68,7 +71,7 @@ export default ({
               color='primary.500'
               numberOfLines={2}
             >
-              {from_adress}
+              {from_address}
             </Text>
           </HStack>
         </HStack>
@@ -83,7 +86,7 @@ export default ({
               color='primary.500'
               numberOfLines={2}
             >
-              {to_adress}
+              {to_address}
             </Text>
           </HStack>
         </HStack>

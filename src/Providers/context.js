@@ -4,6 +4,7 @@ import React, { createContext, useEffect, useState } from "react";
 export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
+  const [user, setUser] = useState({});
   const [isDriver, setIsDriver] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -19,6 +20,8 @@ export const ContextProvider = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        user,
+        setUser,
         isDriver,
         setIsDriver,
         isLogged,

@@ -1,20 +1,50 @@
 import React, { useContext, useState } from "react";
-import { VStack, Text, Input, Button, HStack, FormControl } from "native-base";
+import { Alert } from "react-native";
+import {
+  VStack,
+  Text,
+  Input,
+  Button,
+  HStack,
+  FormControl,
+  Center,
+  Spinner,
+} from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 import { Context } from "../../../Providers/context";
 
 export default ({ navigation }) => {
-  const { setIsLogged } = useContext(Context);
+  const {
+    setIsLogged,
+    // setUser,
+    setIsDriver,
+  } = useContext(Context);
+
+  const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const handleLogin = async () => {
+    setLoading(true);
 
-    setIsLogged(true);
+    try {
+      // const response = await axios.post("https://ufjfgo.herokuapp.com/login", {
+      //   email,
+      //   password,
+      // });
+
+      Alert.alert("Sucesso!", "Login realizado com sucesso!");
+
+      setIsLogged(true);
+      setIsDriver(false);
+      // setUser(response.data.user)
+    } catch (err) {
+      Alert.alert("Erro!", "Não foi possível realizar o login.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -39,24 +69,33 @@ export default ({ navigation }) => {
             type='email'
             placeholder='Email'
             onChangeText={(text) => setEmail(text)}
+            isDisabled={loading}
           />
 
           <Input
             type='password'
             placeholder='Senha'
             onChangeText={(text) => setPassword(text)}
+            isDisabled={loading}
           />
         </VStack>
       </FormControl>
 
+      {loading ? (
+        <Center>
+          <Spinner color='primary.500' size='lg' />
+        </Center>
+      ) : null}
+
       <VStack space='3'>
-        <Button w='100%' onPress={() => handleLogin()}>
+        <Button w='100%' onPress={() => handleLogin()} isDisabled={loading}>
           Entrar
         </Button>
         <Button
           w='100%'
           variant='outline'
           onPress={() => navigation.navigate("SignUp")}
+          isDisabled={loading}
         >
           Cadastrar
         </Button>
@@ -64,6 +103,7 @@ export default ({ navigation }) => {
           w='100%'
           variant='link'
           onPress={() => navigation.navigate("ForgetPassword")}
+          isDisabled={loading}
         >
           Esqueci minha senha
         </Button>

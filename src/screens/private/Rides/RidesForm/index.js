@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import {
   VStack,
   Text,
@@ -9,19 +10,42 @@ import {
   Switch,
   ScrollView,
   FormControl,
+  Center,
+  Spinner,
 } from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default () => {
-  const [datetime, setDatetime] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [dateModal, toggleDateModal] = useState(false);
+  const [timeModal, toggleTimeModal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [vagas, setVagas] = useState("0");
-  const [from_adress, setFrom_adress] = useState("");
-  const [to_adress, setTo_adress] = useState("");
+  const [from_address, setFrom_address] = useState("");
+  const [to_address, setTo_address] = useState("");
   const [justWomen, setJustWomen] = useState(false);
 
   const handleRide = () => {
-    console.log({ datetime, vagas, from_adress, to_adress, justWomen });
+    setLoading(true);
+
+    try {
+      // const response = await axios.post(
+      //   "https://ufjfgo.herokuapp.com/register",
+      //   userData
+      // );
+
+      Alert.alert("Sucesso!", "Carona cadastrada com sucesso!");
+
+      navigation.goBack();
+    } catch (err) {
+      Alert.alert("Erro!", "Não foi possível cadastrar a carona.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -36,31 +60,55 @@ export default () => {
 
         <FormControl>
           <VStack space='5'>
-            <Input
-              type='text'
-              placeholder='Horário (Ex: 12:00)'
-              value={datetime}
-              onChangeText={(text) => setDatetime(text)}
-            />
+            <VStack space='1'>
+              <Text color='primary.900' fontSize='md' fontWeight='semibold'>
+                Data:
+              </Text>
+              <Button
+                w='100%'
+                onPress={() => toggleDateModal(!dateModal)}
+                variant='outline'
+                isDisabled={loading}
+              >
+                {date.toLocaleDateString()}
+              </Button>
+            </VStack>
+
+            <VStack space='1'>
+              <Text color='primary.900' fontSize='md' fontWeight='semibold'>
+                Horário:
+              </Text>
+              <Button
+                w='100%'
+                onPress={() => toggleTimeModal(!timeModal)}
+                variant='outline'
+                isDisabled={loading}
+              >
+                {time.toLocaleTimeString().slice(0, 5)}
+              </Button>
+            </VStack>
 
             <Input
               type='text'
               placeholder='De (Local de saída)'
-              value={from_adress}
-              onChangeText={(text) => setFrom_adress(text)}
+              value={from_address}
+              onChangeText={(text) => setFrom_address(text)}
+              isDisabled={loading}
             />
 
             <Input
               type='text'
               placeholder='Para (Local de chegada)'
-              value={to_adress}
-              onChangeText={(text) => setTo_adress(text)}
+              value={to_address}
+              onChangeText={(text) => setTo_address(text)}
+              isDisabled={loading}
             />
 
             <Select
               placeholder='Número de pessoas'
               selectedValue={vagas}
               onValueChange={(value) => setVagas(value)}
+              isDisabled={loading}
             >
               <Select.Item label='Numero de pessoas' value='0' disabled />
               <Select.Item label='1' value='1' />
@@ -75,6 +123,7 @@ export default () => {
                 size='lg'
                 isChecked={justWomen}
                 onToggle={() => setJustWomen(!justWomen)}
+                isDisabled={loading}
               />
               <Text color='primary.500' fontSize='md' fontWeight='semibold'>
                 Apenas mulheres
@@ -83,10 +132,46 @@ export default () => {
           </VStack>
         </FormControl>
 
-        <Button w='100%' onPress={handleRide}>
+        {loading ? (
+          <Center>
+            <Spinner color='primary.500' size='lg' />
+          </Center>
+        ) : null}
+
+        <Button w='100%' onPress={handleRide} isDisabled={loading}>
           Cadastrar carona
         </Button>
       </VStack>
+
+      {dateModal && (
+        <DateTimePicker
+          testID='dateTimePicker'
+          value={date}
+          mode='date'
+          is24Hour={true}
+          display='default'
+          onChange={(_, selectedDate) => {
+            toggleDateModal(!dateModal);
+            const currentDate = selectedDate || date;
+            setDate(currentDate);
+          }}
+        />
+      )}
+
+      {timeModal && (
+        <DateTimePicker
+          testID='dateTimePicker'
+          value={time}
+          mode='time'
+          is24Hour={true}
+          display='default'
+          onChange={(_, selectedDate) => {
+            toggleTimeModal(!timeModal);
+            const currentDate = selectedDate || date;
+            setTime(currentDate);
+          }}
+        />
+      )}
     </ScrollView>
   );
 };
