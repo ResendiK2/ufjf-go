@@ -15,15 +15,18 @@ import {
 } from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default () => {
   const [loading, setLoading] = useState(false);
 
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [dateModal, toggleDateModal] = useState(false);
+  const [timeModal, toggleTimeModal] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [vagas, setVagas] = useState("0");
-  const [from_adress, setFrom_adress] = useState("");
-  const [to_adress, setTo_adress] = useState("");
+  const [from_address, setFrom_address] = useState("");
+  const [to_address, setTo_address] = useState("");
   const [justWomen, setJustWomen] = useState(false);
 
   const handleRide = () => {
@@ -57,35 +60,47 @@ export default () => {
 
         <FormControl>
           <VStack space='5'>
-            <Input
-              type='text'
-              placeholder='Horário (Ex: 12:00)'
-              value={date}
-              onChangeText={(text) => setDatetime(text)}
-              isDisabled={loading}
-            />
+            <VStack space='1'>
+              <Text color='primary.900' fontSize='md' fontWeight='semibold'>
+                Data:
+              </Text>
+              <Button
+                w='100%'
+                onPress={() => toggleDateModal(!dateModal)}
+                variant='outline'
+                isDisabled={loading}
+              >
+                {date.toLocaleDateString()}
+              </Button>
+            </VStack>
 
-            <Input
-              type='text'
-              placeholder='Horário (Ex: 12:00)'
-              value={time}
-              onChangeText={(text) => setDatetime(text)}
-              isDisabled={loading}
-            />
+            <VStack space='1'>
+              <Text color='primary.900' fontSize='md' fontWeight='semibold'>
+                Horário:
+              </Text>
+              <Button
+                w='100%'
+                onPress={() => toggleTimeModal(!timeModal)}
+                variant='outline'
+                isDisabled={loading}
+              >
+                {time.toLocaleTimeString().slice(0, 5)}
+              </Button>
+            </VStack>
 
             <Input
               type='text'
               placeholder='De (Local de saída)'
-              value={from_adress}
-              onChangeText={(text) => setFrom_adress(text)}
+              value={from_address}
+              onChangeText={(text) => setFrom_address(text)}
               isDisabled={loading}
             />
 
             <Input
               type='text'
               placeholder='Para (Local de chegada)'
-              value={to_adress}
-              onChangeText={(text) => setTo_adress(text)}
+              value={to_address}
+              onChangeText={(text) => setTo_address(text)}
               isDisabled={loading}
             />
 
@@ -127,6 +142,36 @@ export default () => {
           Cadastrar carona
         </Button>
       </VStack>
+
+      {dateModal && (
+        <DateTimePicker
+          testID='dateTimePicker'
+          value={date}
+          mode='date'
+          is24Hour={true}
+          display='default'
+          onChange={(_, selectedDate) => {
+            toggleDateModal(!dateModal);
+            const currentDate = selectedDate || date;
+            setDate(currentDate);
+          }}
+        />
+      )}
+
+      {timeModal && (
+        <DateTimePicker
+          testID='dateTimePicker'
+          value={time}
+          mode='time'
+          is24Hour={true}
+          display='default'
+          onChange={(_, selectedDate) => {
+            toggleTimeModal(!timeModal);
+            const currentDate = selectedDate || date;
+            setTime(currentDate);
+          }}
+        />
+      )}
     </ScrollView>
   );
 };
