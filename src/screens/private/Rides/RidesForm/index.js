@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from "react-native";
 import {
   VStack,
   Text,
@@ -9,19 +10,39 @@ import {
   Switch,
   ScrollView,
   FormControl,
+  Center,
+  Spinner,
 } from "native-base";
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 
 export default () => {
-  const [datetime, setDatetime] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [vagas, setVagas] = useState("0");
   const [from_adress, setFrom_adress] = useState("");
   const [to_adress, setTo_adress] = useState("");
   const [justWomen, setJustWomen] = useState(false);
 
   const handleRide = () => {
-    console.log({ datetime, vagas, from_adress, to_adress, justWomen });
+    setLoading(true);
+
+    try {
+      // const response = await axios.post(
+      //   "https://ufjfgo.herokuapp.com/register",
+      //   userData
+      // );
+
+      Alert.alert("Sucesso!", "Carona cadastrada com sucesso!");
+
+      navigation.goBack();
+    } catch (err) {
+      Alert.alert("Erro!", "Não foi possível cadastrar a carona.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -39,8 +60,17 @@ export default () => {
             <Input
               type='text'
               placeholder='Horário (Ex: 12:00)'
-              value={datetime}
+              value={date}
               onChangeText={(text) => setDatetime(text)}
+              isDisabled={loading}
+            />
+
+            <Input
+              type='text'
+              placeholder='Horário (Ex: 12:00)'
+              value={time}
+              onChangeText={(text) => setDatetime(text)}
+              isDisabled={loading}
             />
 
             <Input
@@ -48,6 +78,7 @@ export default () => {
               placeholder='De (Local de saída)'
               value={from_adress}
               onChangeText={(text) => setFrom_adress(text)}
+              isDisabled={loading}
             />
 
             <Input
@@ -55,12 +86,14 @@ export default () => {
               placeholder='Para (Local de chegada)'
               value={to_adress}
               onChangeText={(text) => setTo_adress(text)}
+              isDisabled={loading}
             />
 
             <Select
               placeholder='Número de pessoas'
               selectedValue={vagas}
               onValueChange={(value) => setVagas(value)}
+              isDisabled={loading}
             >
               <Select.Item label='Numero de pessoas' value='0' disabled />
               <Select.Item label='1' value='1' />
@@ -75,6 +108,7 @@ export default () => {
                 size='lg'
                 isChecked={justWomen}
                 onToggle={() => setJustWomen(!justWomen)}
+                isDisabled={loading}
               />
               <Text color='primary.500' fontSize='md' fontWeight='semibold'>
                 Apenas mulheres
@@ -83,7 +117,13 @@ export default () => {
           </VStack>
         </FormControl>
 
-        <Button w='100%' onPress={handleRide}>
+        {loading ? (
+          <Center>
+            <Spinner color='primary.500' size='lg' />
+          </Center>
+        ) : null}
+
+        <Button w='100%' onPress={handleRide} isDisabled={loading}>
           Cadastrar carona
         </Button>
       </VStack>
