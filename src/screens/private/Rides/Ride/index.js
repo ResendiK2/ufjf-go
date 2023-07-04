@@ -12,7 +12,7 @@ import {
 } from "native-base";
 
 import Icons from "react-native-vector-icons/FontAwesome5";
-import RideBox from "../../../../Components/RideBox";
+import RideBox from "../../../../components/RideBox";
 import { Context } from "../../../../Providers/context";
 
 export default ({ navigation, ...rest }) => {

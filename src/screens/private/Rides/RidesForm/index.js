@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import axios from "axios";
 import { Alert } from "react-native";
 import {
   VStack,
@@ -16,32 +17,38 @@ import {
 
 import Ionicons from "react-native-vector-icons/FontAwesome5";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Context } from "../../../../Providers/context";
 
 export default () => {
+  const { user } = useContext(Context);
+
   const [loading, setLoading] = useState(false);
 
   const [dateModal, toggleDateModal] = useState(false);
   const [timeModal, toggleTimeModal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
-  const [vagas, setVagas] = useState("0");
-  const [from_address, setFrom_address] = useState("");
-  const [to_address, setTo_address] = useState("");
+  const [vagas, setVagas] = useState("2");
+  const [from, setFrom] = useState("home");
+  const [destiny, setDestiny] = useState("uf");
   const [justWomen, setJustWomen] = useState(false);
 
-  const handleRide = () => {
+  const handleRide = async () => {
+
     setLoading(true);
 
     try {
-      // const response = await axios.post(
-      //   "https://ufjfgo.herokuapp.com/register",
-      //   userData
-      // );
+      const response = await axios.post(
+        "http://127.0.0.1:8001/rides/create",
+        { date, time, vagas, from, destiny, justWomen, driver_id: user.id },
+      );
+      console.log(response);
 
       Alert.alert("Sucesso!", "Carona cadastrada com sucesso!");
 
       navigation.goBack();
     } catch (err) {
+      console.log(err);
       Alert.alert("Erro!", "Não foi possível cadastrar a carona.");
     }
 
@@ -91,16 +98,16 @@ export default () => {
             <Input
               type='text'
               placeholder='De (Local de saída)'
-              value={from_address}
-              onChangeText={(text) => setFrom_address(text)}
+              value={from}
+              onChangeText={(text) => setFrom(text)}
               isDisabled={loading}
             />
 
             <Input
               type='text'
               placeholder='Para (Local de chegada)'
-              value={to_address}
-              onChangeText={(text) => setTo_address(text)}
+              value={destiny}
+              onChangeText={(text) => setDestiny(text)}
               isDisabled={loading}
             />
 

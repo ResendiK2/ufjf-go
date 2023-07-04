@@ -3,7 +3,7 @@ import { Alert } from "react-native";
 import { VStack, Button, Icon, FlatList, Center, Spinner } from "native-base";
 
 import Icons from "react-native-vector-icons/FontAwesome5";
-import RideBox from "../../../../Components/RideBox";
+import RideBox from "../../../../components/RideBox";
 import { useIsFocused } from "@react-navigation/native";
 import { Context } from "../../../../Providers/context";
 

@@ -38,7 +38,7 @@ export default ({ navigation }) => {
       Alert.alert("Sucesso!", "Login realizado com sucesso!");
 
       setIsLogged(true);
-      setIsDriver(false);
+      setIsDriver(true);
       // setUser(response.data.user)
     } catch (err) {
       Alert.alert("Erro!", "Não foi possível realizar o login.");

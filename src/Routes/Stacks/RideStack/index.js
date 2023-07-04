@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Rides from "../../../Screens/private/Rides/Rides";
-import Ride from "../../../Screens/private/Rides/Ride";
-import RidesForm from "../../../Screens/private/Rides/RidesForm";
+import Rides from "../../../screens/private/Rides/Rides";
+import Ride from "../../../screens/private/Rides/Ride";
+import RidesForm from "../../../screens/private/Rides/RidesForm";
 
 const Stack = createNativeStackNavigator();
 

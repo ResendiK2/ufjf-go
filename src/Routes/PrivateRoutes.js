@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 import RideStack from "./Stacks/RideStack";
 import ChatStack from "./Stacks/ChatStack";
 import SearchStack from "./Stacks/SearchStack";
-import Profile from "../Screens/private/Profile";
+import Profile from "../screens/private/Profile";
 
 const Tab = createBottomTabNavigator();
 
